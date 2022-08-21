@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="110dp">
+
+    <ImageView
+        android:id="@+id/imageAvatar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerVertical="true"
+        android:layout_marginHorizontal="15dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/textUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@+id/imageAvatar"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="#282828"
+        android:textSize="20sp"
+        android:layout_above="@+id/viewCenter"
+        tools:text="Username" />
+    <View
+        android:id="@+id/viewCenter"
+        android:layout_toRightOf="@+id/imageAvatar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerVertical="true"
+        />
+
+    <TextView
+        android:id="@+id/textHref"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viewCenter"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@+id/imageAvatar"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="#C8C8C8"
+        android:textSize="14sp"
+        tools:text="https://github.com/abc" />
+
+</RelativeLayout>
