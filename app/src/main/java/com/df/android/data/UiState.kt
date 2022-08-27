@@ -1,6 +1,4 @@
-package com.df.android.domain
-
-import com.df.android.data.ErrorType
+package com.df.android.data
 
 sealed class UiState<T> {
 

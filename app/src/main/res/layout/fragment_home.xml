@@ -50,8 +50,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:textColor="@color/black"
-                        android:textSize="16dp" />
+                        android:textColor="@color/colorAccent"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
             </androidx.appcompat.widget.Toolbar>
@@ -61,9 +61,8 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -77,7 +76,7 @@
         android:id="@+id/txt_no_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/str_no_data"
+        android:text="@string/home_no_data"
         android:textSize="16sp"
         android:visibility="gone"
         android:layout_gravity="center"

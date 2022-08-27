@@ -1,4 +1,4 @@
-package com.df.android.data.model
+package com.df.android.data.dto.model
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 

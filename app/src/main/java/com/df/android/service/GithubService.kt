@@ -1,7 +1,7 @@
 package com.df.android.service
 
-import com.df.android.data.model.GithubUserDetailDto
-import com.df.android.data.model.GithubUserDto
+import com.df.android.data.dto.model.GithubUserDetailDto
+import com.df.android.data.dto.model.GithubUserDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

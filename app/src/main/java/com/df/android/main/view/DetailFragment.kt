@@ -2,74 +2,103 @@ package com.df.android.main.view
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.df.android.R
-import com.df.android.data.model.GithubUserDetailDto
-import com.df.android.data.model.GithubUserDto
+import com.df.android.data.UiState
+import com.df.android.data.domain.GithubUser
+import com.df.android.data.domain.GithubUserDetail
+import com.df.android.data.message
 import com.df.android.databinding.FragmentDetailBinding
 import com.df.android.main.viewmodel.DetailViewModel
+import com.df.android.utils.argument
 import com.df.android.utils.viewBinding
+import com.df.android.utils.visible
+import com.gyf.immersionbar.ImmersionBar
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
-class DetailFragment: Fragment(R.layout.fragment_detail) {
+@AndroidEntryPoint
+class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private val binding by viewBinding(FragmentDetailBinding::bind)
-    private lateinit var userInfo: GithubUserDto
-    val viewModel by viewModels<DetailViewModel>()
+    private val viewModel by viewModels<DetailViewModel>()
+    private var userInfo by argument<GithubUser>(ARG_USER)
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getGithubUser(userInfo.login)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        ImmersionBar.with(this).reset().init()
+
         initView()
         setUpEvent()
-        observerData()
+        dataObserver()
     }
 
-    private fun observerData() {
-//        viewModel.userDetailLiveData.observe(this, Observer { it ->
-//            binding.apply {
-//                when (it) {
-//                    is ResponseData.Loading -> {
-//                        if (!swipeRefresh.isRefreshing) {
-//                            loadingProgressbar.visible()
-//                        }
-//                    }
-//                    is ResponseData.Success -> {
-//                        loadingProgressbar.visibility = View.GONE
-//                        if (swipeRefresh.isRefreshing) swipeRefresh.isRefreshing = false
-//                        updateUserInfo(it.data)
-//                    }
-//                    is ResponseData.Error -> {
-//                        Toast.makeText(
-//                            this@DetailActivity,
-//                            it.message(),
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                        loadingProgressbar.gone()
-//                        if (swipeRefresh.isRefreshing) swipeRefresh.isRefreshing = false
-//                    }
-//                }
-//            }
-//
-//        })
-//
-//        viewModel.getUserDetail(userInfo)
+    private fun dataObserver() {
+        viewModel.githubUserDetailState
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is UiState.Loading -> {
+                        if (!binding.swipeRefresh.isRefreshing) {
+                            binding.loadingProgressbar.visible()
+                        }
+                    }
+                    is UiState.Success -> {
+                        binding.loadingProgressbar.visibility = View.GONE
+                        if (binding.swipeRefresh.isRefreshing) binding.swipeRefresh.isRefreshing =
+                            false
+                        updateUserInfo(state.data)
+                    }
+                    is UiState.Error -> {
+                        Toast.makeText(
+                            requireContext(),
+                            state.error.message(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        binding.loadingProgressbar.visibility = View.GONE
+                        if (binding.swipeRefresh.isRefreshing) binding.swipeRefresh.isRefreshing =
+                            false
+                    }
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
-
 
     private fun initView() {
-        TODO("Not yet implemented")
+        updateUserInfo(userInfo)
     }
 
     private fun setUpEvent() {
-        TODO("Not yet implemented")
+        binding.swipeRefresh.setOnRefreshListener {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.home_cta_refresh),
+                Toast.LENGTH_SHORT
+            ).show()
+            viewModel.getGithubUser(userInfo.login)
+        }
+
+        binding.buttonBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
-    private fun updateUserInfo(user: GithubUserDto) {
+    private fun updateUserInfo(user: GithubUser) {
         binding.apply {
             textUsername.text = user.login
             Glide.with(imageAvatar.context)
@@ -84,7 +113,7 @@ class DetailFragment: Fragment(R.layout.fragment_detail) {
         }
     }
 
-    private fun updateUserInfo(user: GithubUserDetailDto) {
+    private fun updateUserInfo(user: GithubUserDetail) {
         binding.apply {
 
             textUsername.text = user.name ?: userInfo.login
@@ -109,7 +138,7 @@ class DetailFragment: Fragment(R.layout.fragment_detail) {
 
     }
 
-    companion object{
+    companion object {
         const val ARG_USER = "ARG_USER"
     }
 

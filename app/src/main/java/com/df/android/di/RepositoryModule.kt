@@ -1,5 +1,7 @@
 package com.df.android.di
 
+import com.df.android.repository.GithubRepository
+import com.df.android.repository.GithubRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

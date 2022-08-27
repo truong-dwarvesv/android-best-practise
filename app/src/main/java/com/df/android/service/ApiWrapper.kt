@@ -1,5 +1,7 @@
-package com.df.android.data
+package com.df.android.service
 
+import com.df.android.data.ErrorType
+import com.df.android.data.Resource
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import retrofit2.HttpException
@@ -11,12 +13,12 @@ import java.io.IOException
  */
 suspend fun <T> safeCallApi(
     api: suspend() -> Response<T>
-): NetworkResult<T> {
+): Resource<T> {
     return try {
         val response = api.invoke()
         val body = response.body()
         if (response.isSuccessful && body != null) {
-            NetworkResult.Success(body)
+            Resource.Success(body)
         } else {
             throw HttpException(response)
         }
@@ -48,7 +50,7 @@ suspend fun <T> safeCallApi(
                 )
             }
         }
-        NetworkResult.Error(errorType)
+        Resource.Error(errorType)
     }
 }
 

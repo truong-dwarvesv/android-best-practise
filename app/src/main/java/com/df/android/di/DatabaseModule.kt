@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.df.android.database.AppDatabase
 import com.df.android.database.dao.GithubUserDao
+import com.df.android.database.dao.GithubUserDetailDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,5 +30,10 @@ class DatabaseModule {
     @Provides
     fun provideGithubUserDao(database: AppDatabase): GithubUserDao {
         return database.userDao()
+    }
+
+    @Provides
+    fun provideGithubUserDetailDao(database: AppDatabase): GithubUserDetailDao {
+        return database.userDetailDao()
     }
 }

@@ -4,17 +4,16 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.df.android.data.model.GithubUserDto
-import kotlinx.coroutines.flow.Flow
+import com.df.android.data.entity.GithubUserEntity
 
 @Dao
 interface GithubUserDao {
 
     @Query("SELECT * FROM githubUser")
-    fun getAllGithubUsers(): Flow<List<GithubUserDto>>
+    suspend fun getAllGithubUsers(): List<GithubUserEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(list: List<GithubUserDto>): Flow<List<Long>>
+    suspend fun insertAll(list: List<GithubUserEntity>): List<Long>
 
     @Query("DELETE FROM githubUser")
     fun deleteAll()

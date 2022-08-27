@@ -22,6 +22,8 @@ fun ErrorType.message(): String {
     }
 }
 
+fun Throwable?.toError() = ErrorType.CustomError(Throwable(this?.message))
+
 
 /**
  * Handle error code not null. Return null if it handled
