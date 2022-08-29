@@ -8,6 +8,7 @@ import com.df.android.database.dao.GithubUserDao
 import com.df.android.database.dao.GithubUserDetailDao
 import com.df.android.service.GithubService
 import com.df.android.service.safeCallApi
+import com.df.android.utils.dispatcher.DispatcherProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -17,7 +18,8 @@ import javax.inject.Inject
 class GithubRepositoryImpl @Inject constructor(
     private val service: GithubService,
     private val userDao: GithubUserDao,
-    private val userDetailDao: GithubUserDetailDao
+    private val userDetailDao: GithubUserDetailDao,
+    private val dispatcher: DispatcherProvider,
 ) : GithubRepository {
 
     override fun getGithubUsers() = getRemoteGithubUsers()
@@ -31,7 +33,7 @@ class GithubRepositoryImpl @Inject constructor(
             } else {
                 Resource.Success(data)
             }
-        }.flowOn(Dispatchers.IO)
+        }.flowOn(dispatcher.io())
 
     private fun getRemoteGithubUsers() = flow {
         val result = safeCallApi {
@@ -51,7 +53,7 @@ class GithubRepositoryImpl @Inject constructor(
             } else {
                 Resource.Success(user!!.toDomain())
             }
-        }.flowOn(Dispatchers.IO)
+        }.flowOn(dispatcher.io())
 
     private fun getRemoteUserDetail(userId: String) = flow {
         val result = safeCallApi {

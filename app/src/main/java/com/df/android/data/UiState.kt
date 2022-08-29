@@ -14,4 +14,11 @@ sealed class UiState<T> {
             else -> null
         }
     }
+
+    fun error(): ErrorType? {
+        return when (this) {
+            is Error -> this.error
+            else -> null
+        }
+    }
 }
