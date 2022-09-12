@@ -28,10 +28,9 @@
     - Test: It includes unit test for data and ui testing
 
 **CODE QUALITY ANALYSIS**
-- Coming soon
-
-**TESTING**
-- Coming soon
+- Detekt: https://github.com/detekt/detekt
+- Ktlint: https://ktlint.github.io/
+- SonarQube: https://www.sonarqube.org/
 
 **CI/CD**
-- Coming soon
+- Depend on Repository management platform, we can choose in among of them CircleCI, Gitlab Action, Github Action, Bitrise and so on
