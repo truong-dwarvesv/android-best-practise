@@ -1,3 +1,19 @@
+## Table of Contents
+
+- [Source files](#source--files)
+  + [Naming](#naming)
+  + [Special Characters](#special--characters)
+  + [Structure](#structure)
+- [Formatting](#formatting)
+  + [Braces](#braces)
+  + [Whitespace](#whitespace)
+  + [Specific constructs](#specific--constructs)
+  + [Naming](#naming)
+  + [Documentation](#documentation)
+- [Android best practise](#android-best-practise)
+- [References](#references)
+
+
 # **Kotlin style guide**
 
 This document serves as the complete definition of Google’s Android coding standards for source code in the Kotlin Programming Language. A Kotlin source file is described as being in Google Android Style if and only if it adheres to the rules herein.
@@ -665,7 +681,7 @@ It is not appropriate to cite this exception to justify omitting relevant inform
 KDoc is not always present on a method that overrides a supertype method.
 
 
-# **Sample best practise**
+# **Android best practise**
 Android App included all up-to-date Android Jetpack and best practise during development lifecycle
 
 **TECHSTACKS**
